@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 # SnapshotAuditor-300000
 
+=======
+# snapshot-auditor-30k
+>>>>>>> 013bbba7177cb26f73cc5b8953e967b8c8010138
 Demo project to manage AWS EC2 instance snapshots.
 
 ## About 
