@@ -6,7 +6,7 @@
 >>>>>>> 013bbba7177cb26f73cc5b8953e967b8c8010138
 Demo project to manage AWS EC2 instance snapshots.
 
-## About 
+## About
 
 This is a demo project, and it uses Boto3 to manage AWS EC2 instance snapshots.
 
@@ -18,5 +18,7 @@ tokenblack uses the configuration file created by the AWS CLI. For example:
 
 ## Running
 
-`pipenv run python scripts/ls_instances.py`
+`pipenv run python scripts/ls_instances.py <command> <--project=PROJECT>`
 
+*command* is list, start, or stop
+*project* is optional
