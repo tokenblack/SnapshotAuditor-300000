@@ -20,5 +20,6 @@ tokenblack uses the configuration file created by the AWS CLI. For example:
 
 `pipenv run python scripts/ls_instances.py <command> <--project=PROJECT>`
 
-*command* is list, start, or stop
+*command* is instances, volumes, or snapshots
+*subcommand* depends on command
 *project* is optional
