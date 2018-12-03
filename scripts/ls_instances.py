@@ -34,20 +34,6 @@ def instances():
 	"""Commands for instances"""
 
 
-@instances.command('snapshot', help="Create snapshots of all volumes")
-@click.option('--option',default=None,help="Only instances for project (tag Project:<name>)")
-def create_snapshots(project):
-	"Create snapshots for EC2 instances"
-	instances=filter_instances(project)
-
-	for i in instances:
-		i.stop()
-		for v in i.volumes.all():
-			print("Creating snapshot of {0}".format(v.id))
-			v.create_snapshot(Description="Created by Snapshot-Auditor-30K")
-	return
-
-
 @snapshots.command('list')
 @click.option('--project',default=None,help="Only instances for project (tag Project:<name>)")
 def list_snapshots(project):
@@ -86,6 +72,26 @@ def list_volumes(project):
 	return
 
 
+@instances.command('snapshot', help="Create snapshots of all volumes")
+@click.option('--project',default=None,help="Only instances for project (tag Project:<name>)")
+def create_snapshots(project):
+	"Create snapshots for EC2 instances"
+	instances=filter_instances(project)
+
+	for i in instances:
+		print("Stopping {0}...".format(i.id))
+		i.stop()
+		i.wait_until_stopped()
+		for v in i.volumes.all():
+			print("Creating snapshot of {0}".format(v.id))
+			v.create_snapshot(Description="Created by Snapshot-Auditor-30K")
+		print("Starting {0}...".format(i.id))
+		i.start()
+		i.wait_until_running()
+	print("Woo-hoo! All set.")
+	return
+
+
 @instances.command('list')
 @click.option('--project',default=None,help="Only instances for project (tag Project:<name>)")
 def list_instances(project):
@@ -119,7 +125,7 @@ def stop_instances(project):
 
 @instances.command('start')
 @click.option('--project',default=None,help="Only instances for project (tag Project:<name>)")
-def stop_instances(project):
+def start_instances(project):
 	"Start EC2 instances"
 	instances=filter_instances(project)
 
@@ -127,6 +133,7 @@ def stop_instances(project):
 		print("Starting {0}...".format(i.id))
 		i.start()
 	return
+
 
 if __name__ == '__main__':
 #	print(sys.argv)
